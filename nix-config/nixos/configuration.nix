@@ -60,7 +60,7 @@
     };
   };
 
-  # FIXME: Add the rest of your current configuration
+  # the configuration (pain)
 programs = {
    firefox.enable = true;
    hyprland.enable = true;
@@ -71,30 +71,75 @@ programs = {
 
   # TODO: This is just an example, be sure to use whatever bootloader you prefer
   boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.efi.efiSysMountPoint = "/boot/efi";
+  
 
-  # TODO: Configure your system-wide user settings (groups, etc), add more users as needed.
-  users.users = {
-    # FIXME: Replace with your username
-    lexi = {
-      # TODO: You can set an initial password for your user.
-      # If you do, you can skip setting a root password by passing '--no-root-passwd' to nixos-install.
-      # Be sure to change it (using passwd) after rebooting!
-      initialPassword = "initPassWord";
-      isNormalUser = true;
+  # enable networking
+  networking.networkmanager.enable = true;
+  
+  # Set a time zone, idiot
+  time.timeZone = "Europe/London";
+
+  # Fun internationalisation stuffs (AAAAAAAA)
+  i18n.defaultLocale = "it_IT.UTF-8";
+  
+  i18n.extraLocaleSettings = {
+   LC_ADDRESS = "en_GB.UTF-8";
+   LC_IDENTIFICATION = "en_GB.UTF-8";
+   LC_MEASUREMENT = "en_GB.UTF-8";
+   LC_MONETARY = "en_GB.UTF-8";
+   LC_NAME = "en_GB.UTF-8";
+   LC_NUMERIC = "en_GB.UTF-8";
+   LC_PAPER = "en_GB.UTF-8";
+   LC_TELEPHONE = "en_GB.UTF-8";
+   LC_TIME = "en_GB.UTF-8";
+  };
+
+  # Enable X11 Windowing system
+  services.xserver.enable = true;
+
+  # Enable display Manager
+  services.xserver.displayManager.sddm.enable = true;
+
+  # configure keymap (x11)
+  services.xserver = {
+    layout = "gb";
+    xkbVariant = "colemak";
+  };
+
+
+  # Would you like to be able to fucking print?
+  services.printing.enable = true;
+
+  # Sound (kill me now)
+  sound.enable = true;
+  hardware.pulseaudio.enable = false;
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+  };
+
+  # define user acc
+  users.users.lexi = {
+    isNormalUser = true;
+    description = "Lexi";
+    extraGroups = [ "networkmanager" "wheel" ];
       openssh.authorizedKeys.keys = [
         # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
       ];
-      # TODO: Be sure to add any other groups you need (such as networkmanager, audio, docker, etc)
-      extraGroups = [ "wheel" ];
     };
-  };
+
 
   # This setups a SSH server. Very important if you're setting up a headless system.
   # Feel free to remove if you don't need it.
-  services.openssh = {
+  services.openssh.settings = {
     enable = true;
     # Forbid root login through SSH.
-    permitRootLogin = "no";
+    permitRootLogin = "yes";
     # Use keys only. Remove if you want to SSH using password (not recommended)
     passwordAuthentication = false;
   };
