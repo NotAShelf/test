@@ -69,6 +69,8 @@
   # the configuration (pain)
   programs = {
     hyprland.enable = true;
+    steam.enable = true;
+    nm-applet.enable = true;
   };
   # TODO: Set your hostname
   networking.hostName = "Messier";
