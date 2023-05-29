@@ -1,7 +1,13 @@
 # This is your system's configuration file.
 # Use this to configure your system environment (it replaces /etc/nixos/configuration.nix)
-
-{ inputs, outputs, lib, config, pkgs, ... }: {
+{
+  inputs,
+  outputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}: {
   # You can import other NixOS modules here
   imports = [
     # If you want to use modules your own flake exports (from modules/nixos):
@@ -46,7 +52,7 @@
   nix = {
     # This will add each flake input as a registry
     # To make nix3 commands consistent with your flake
-    registry = lib.mapAttrs (_: value: { flake = value; }) inputs;
+    registry = lib.mapAttrs (_: value: {flake = value;}) inputs;
 
     # This will additionally add your inputs to the system's legacy channels
     # Making legacy nix commands consistent as well, awesome!
@@ -61,11 +67,9 @@
   };
 
   # the configuration (pain)
-programs = {
-   firefox.enable = true;
-   hyprland.enable = true;
-   neovim.enable = true;
-};
+  programs = {
+    hyprland.enable = true;
+  };
   # TODO: Set your hostname
   networking.hostName = "Messier";
 
@@ -73,27 +77,26 @@ programs = {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
-  
 
   # enable networking
   networking.networkmanager.enable = true;
-  
+
   # Set a time zone, idiot
   time.timeZone = "Europe/London";
 
   # Fun internationalisation stuffs (AAAAAAAA)
   i18n.defaultLocale = "it_IT.UTF-8";
-  
+
   i18n.extraLocaleSettings = {
-   LC_ADDRESS = "en_GB.UTF-8";
-   LC_IDENTIFICATION = "en_GB.UTF-8";
-   LC_MEASUREMENT = "en_GB.UTF-8";
-   LC_MONETARY = "en_GB.UTF-8";
-   LC_NAME = "en_GB.UTF-8";
-   LC_NUMERIC = "en_GB.UTF-8";
-   LC_PAPER = "en_GB.UTF-8";
-   LC_TELEPHONE = "en_GB.UTF-8";
-   LC_TIME = "en_GB.UTF-8";
+    LC_ADDRESS = "en_GB.UTF-8";
+    LC_IDENTIFICATION = "en_GB.UTF-8";
+    LC_MEASUREMENT = "en_GB.UTF-8";
+    LC_MONETARY = "en_GB.UTF-8";
+    LC_NAME = "en_GB.UTF-8";
+    LC_NUMERIC = "en_GB.UTF-8";
+    LC_PAPER = "en_GB.UTF-8";
+    LC_TELEPHONE = "en_GB.UTF-8";
+    LC_TIME = "en_GB.UTF-8";
   };
 
   # Enable X11 Windowing system
@@ -107,7 +110,6 @@ programs = {
     layout = "gb";
     xkbVariant = "colemak";
   };
-
 
   # Would you like to be able to fucking print?
   services.printing.enable = true;
@@ -127,12 +129,11 @@ programs = {
   users.users.lexi = {
     isNormalUser = true;
     description = "Lexi";
-    extraGroups = [ "networkmanager" "wheel" ];
-      openssh.authorizedKeys.keys = [
-        # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
-      ];
-    };
-
+    extraGroups = ["networkmanager" "wheel"];
+    openssh.authorizedKeys.keys = [
+      # TODO: Add your SSH public key(s) here, if you plan on using SSH to connect
+    ];
+  };
 
   # This setups a SSH server. Very important if you're setting up a headless system.
   # Feel free to remove if you don't need it.
