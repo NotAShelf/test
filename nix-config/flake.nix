@@ -70,7 +70,16 @@
         specialArgs = {inherit inputs outputs;};
         modules = [
           # > Our main nixos configuration file <
-          ./nixos/configuration.nix
+          ./nixos/hosts/messier # this imports the entirety of messier's configs
+        ];
+      };
+
+      # this is another sample host
+      host2 = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          # > Our main nixos configuration file <
+          ./nixos/hosts/hosts2 # this imports the entirety of host2's configs
         ];
       };
     };
